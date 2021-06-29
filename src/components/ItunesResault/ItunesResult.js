@@ -49,6 +49,9 @@ export function ItunesResult({ props }) {
       <TableCaption>Itunes music</TableCaption>
       <Thead>
         <Tr>
+          <Th>
+            Image
+          </Th>
           <Th>Artist Name  <Button onClick={() => sort('artistName')} colorScheme="blue" size="xs" variant="outline">
             {sortASC.artistName &&
             <ArrowDownIcon></ArrowDownIcon>}
@@ -67,6 +70,9 @@ export function ItunesResult({ props }) {
       <Tbody>
         {sortType.map((val, index) =>
           <Tr key={index}>
+            <Td>
+              <img src={val.artworkUrl100}/>
+            </Td>
             <Td>{val.artistName}</Td>
             <Td>{val.trackCensoredName}</Td>
             <Td>
