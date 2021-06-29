@@ -3,7 +3,6 @@ import {
     Input,
     Button,
     Spinner,
-    Container,
 } from "@chakra-ui/react"
 import { useState } from 'react';
 import { ItunesResult } from "../ItunesResault/ItunesResult";

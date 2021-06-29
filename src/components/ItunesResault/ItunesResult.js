@@ -16,31 +16,32 @@ import { useState } from 'react';
 export function ItunesResult({ props }) {
   const [sortType, setSortType] = useState(props);
   const [sortASC, setSort] = useState({
-    artist: true,
-    track: true,
+    artistName: false,
+    trackCensoredName: false,
   });
   let fieldName = '';
 
   const sort = (field) => {
     fieldName = field;
-    console.log(sortASC)
-    if (sortASC.artist) {
-      setSortType([...props.sort(sortingMethod)]);
-      setSort({...sortASC, artist: false});
+    if (sortASC[field]) {
+      setSortType([...props.sort(sortingMethodASC)]);
+      const a = sortASC;
+      a[field] = false;
+      setSort({...sortASC, ...a});
     }
     else {
-      setSortType([...props.sort(sortingMethod)]);
-      setSort({...sortASC, artist: true});
+      setSortType([...props.sort(sortingMethodDSC)]);
+      const a = sortASC;
+      a[field] = true;
+      setSort({...sortASC, ...a});
     }
   }
-  const sortingMethod = (a, b) => {
-    if (a[fieldName].toLowerCase() < b[fieldName].toLowerCase()) {
-      return sortASC.artist ? -1 : 1;
-    }
-    if (a[fieldName].toLowerCase() > b[fieldName].toLowerCase()) {
-      return sortASC.artist ? 1 : -1;
-    }
-    return 0;
+  const sortingMethodASC = (a, b) => {
+    return a[fieldName].toLowerCase() < b[fieldName].toLowerCase() ? -1 : a[fieldName].toLowerCase() > b[fieldName].toLowerCase() ? 1 : 0
+  }
+
+  const sortingMethodDSC = (a, b) => {
+    return a[fieldName].toLowerCase() < b[fieldName].toLowerCase() ? 1 : a[fieldName].toLowerCase() > b[fieldName].toLowerCase() ? -1 : 0
   }
 
   return (
@@ -49,12 +50,17 @@ export function ItunesResult({ props }) {
       <Thead>
         <Tr>
           <Th>Artist Name  <Button onClick={() => sort('artistName')} colorScheme="blue" size="xs" variant="outline">
-            {sortASC.artist &&
+            {sortASC.artistName &&
             <ArrowDownIcon></ArrowDownIcon>}
-            {!sortASC.artist &&
+            {!sortASC.artistName &&
             <ArrowUpIcon></ArrowUpIcon>}
           </Button></Th>
-          <Th>Track Name   <Button onClick={() => sort('trackCensoredName')} colorScheme="blue" size="xs" variant="outline"> sort</Button></Th>
+          <Th>Track Name   <Button onClick={() => sort('trackCensoredName')} colorScheme="blue" size="xs" variant="outline">
+            {sortASC.trackCensoredName &&
+            <ArrowDownIcon></ArrowDownIcon>}
+            {!sortASC.trackCensoredName &&
+            <ArrowUpIcon></ArrowUpIcon>}
+          </Button></Th>
           <Th>Preview</Th>
         </Tr>
       </Thead>
